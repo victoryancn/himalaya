@@ -1,8 +1,8 @@
-import {arrayIncludes} from './compat'
+import { arrayIncludes } from './compat'
 
 export default function parser (tokens, options) {
-  const root = {tagName: null, children: []}
-  const state = {tokens, options, cursor: 0, stack: [root]}
+  const root = { tagName: null, children: [] }
+  const state = { tokens, options, cursor: 0, stack: [root] }
   parse(state)
   return root.children
 }
@@ -34,11 +34,11 @@ export function rewindStack (stack, newLength, childrenEndPosition, endPosition)
 }
 
 export function parse (state) {
-  const {tokens, options} = state
-  let {stack} = state
+  const { tokens, options } = state
+  const { stack } = state
   let nodes = stack[stack.length - 1].children
   const len = tokens.length
-  let {cursor} = state
+  let { cursor } = state
   while (cursor < len) {
     const token = tokens[cursor]
     if (token.type !== 'tag-start') {
@@ -94,7 +94,7 @@ export function parse (state) {
       }
     }
 
-    let attributes = []
+    const attributes = []
     let attrToken
     while (cursor < len) {
       attrToken = tokens[cursor]
@@ -120,8 +120,8 @@ export function parse (state) {
 
     const hasChildren = !(attrToken.close || arrayIncludes(options.voidTags, tagName))
     if (hasChildren) {
-      const size = stack.push({tagName, children, position})
-      const innerState = {tokens, options, cursor, stack}
+      const size = stack.push({ tagName, children, position })
+      const innerState = { tokens, options, cursor, stack }
       parse(innerState)
       cursor = innerState.cursor
       const rewoundInElement = stack.length === size

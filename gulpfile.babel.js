@@ -1,25 +1,22 @@
-import 'babel-polyfill'
-import 'source-map-support/register'
-
-import del from 'del'
-import gulp from 'gulp'
-import babel from 'gulp-babel'
-import sourcemaps from 'gulp-sourcemaps'
-import babelify from 'babelify'
-import source from 'vinyl-source-stream'
-import browserify from 'browserify'
-import buffer from 'vinyl-buffer'
+const del = require('del')
+const gulp = require('gulp')
+const babel = require('gulp-babel')
+const sourcemaps = require('gulp-sourcemaps')
+const babelify = require('babelify')
+const source = require('vinyl-source-stream')
+const browserify = require('browserify')
+const buffer = require('vinyl-buffer')
 
 gulp.task('default', ['build'])
 
 gulp.task('build', ['cleanLib', 'buildSrc', 'buildDist'])
 
 gulp.task('cleanLib', () => {
-  return del(['lib'], {force: true})
+  return del(['lib'], { force: true })
 })
 
 gulp.task('cleanDist', () => {
-  return del(['dist'], {force: true})
+  return del(['dist'], { force: true })
 })
 
 gulp.task('buildSrc', ['cleanLib'], () => {

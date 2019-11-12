@@ -1,8 +1,8 @@
-import {arrayIncludes} from './compat'
+import { arrayIncludes } from './compat'
 
 export function formatAttributes (attributes) {
   return attributes.reduce((attrs, attribute) => {
-    const {key, value} = attribute
+    const { key, value } = attribute
     if (value === null) {
       return `${attrs} ${key}`
     }
@@ -20,7 +20,7 @@ export function toHTML (tree, options) {
     if (node.type === 'comment') {
       return `<!--${node.content}-->`
     }
-    const {tagName, attributes, children} = node
+    const { tagName, attributes, children } = node
     const isSelfClosing = arrayIncludes(options.voidTags, tagName.toLowerCase())
     return isSelfClosing
       ? `<${tagName}${formatAttributes(attributes)}>`
@@ -28,4 +28,4 @@ export function toHTML (tree, options) {
   }).join('')
 }
 
-export default {toHTML}
+export default { toHTML }

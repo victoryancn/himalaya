@@ -1,6 +1,6 @@
 import test from 'ava'
-import {parse, parseDefaults} from '../lib'
-import {formatAttributes} from '../lib/format'
+import { parse, parseDefaults } from '../lib'
+import { formatAttributes } from '../lib/format'
 
 test('formatAttributes() should return a key-value array', t => {
   const attributes = [
@@ -9,9 +9,9 @@ test('formatAttributes() should return a key-value array', t => {
     'cake=\'man\''
   ]
   t.deepEqual(formatAttributes(attributes), [
-    {key: 'foo', value: 'bar'},
-    {key: 'disabled', value: null},
-    {key: 'cake', value: 'man'}
+    { key: 'foo', value: 'bar' },
+    { key: 'disabled', value: null },
+    { key: 'cake', value: 'man' }
   ])
 })
 
@@ -221,7 +221,7 @@ test('custom tags should appear in the ast', t => {
   }
 
   {
-    const html = `<div><h1>Hi there</h1><result></result></div>`
+    const html = '<div><h1>Hi there</h1><result></result></div>'
     const data = [{
       type: 'element',
       tagName: 'div',

@@ -1,6 +1,6 @@
 import test from 'ava'
-import {parse, stringify} from '../lib'
-import {formatAttributes} from '../lib/stringify'
+import { parse, stringify } from '../lib'
+import { formatAttributes } from '../lib/stringify'
 
 test('stringify() should handle simple conversions', t => {
   const str1 = '<h1>Text</h1>'

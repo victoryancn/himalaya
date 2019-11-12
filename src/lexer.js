@@ -52,7 +52,7 @@ export default function lexer (str, options) {
 }
 
 export function lex (state) {
-  const {str, options: {childlessTags}} = state
+  const { str, options: { childlessTags } } = state
   const len = str.length
   while (state.position.index < len) {
     const start = state.position.index
@@ -89,7 +89,7 @@ export function findTextEnd (str, index) {
 
 export function lexText (state) {
   const type = 'text'
-  const {str, position} = state
+  const { str, position } = state
   let textEnd = findTextEnd(str, position.index)
   if (textEnd === position.index) return
   if (textEnd === -1) {
@@ -100,11 +100,11 @@ export function lexText (state) {
   const content = str.slice(position.index, textEnd)
   jumpPosition(position, str, textEnd)
   const end = copyPosition(position)
-  state.tokens.push({type, content, position: {start, end}})
+  state.tokens.push({ type, content, position: { start, end } })
 }
 
 export function lexComment (state) {
-  const {str, position} = state
+  const { str, position } = state
   const start = copyPosition(position)
   feedPosition(position, str, 4) // "<!--".length
   let contentEnd = str.indexOf('-->', position.index)
@@ -126,13 +126,13 @@ export function lexComment (state) {
 }
 
 export function lexTag (state) {
-  const {str, position} = state
+  const { str, position } = state
   {
     const secondChar = str.charAt(position.index + 1)
     const close = secondChar === '/'
     const start = copyPosition(position)
     feedPosition(position, str, close ? 2 : 1)
-    state.tokens.push({type: 'tag-start', close, position: {start}})
+    state.tokens.push({ type: 'tag-start', close, position: { start } })
   }
   const tagName = lexTagName(state)
   lexTagAttributes(state)
@@ -141,7 +141,7 @@ export function lexTag (state) {
     const close = firstChar === '/'
     feedPosition(position, str, close ? 2 : 1)
     const end = copyPosition(position)
-    state.tokens.push({type: 'tag-end', close, position: {end}})
+    state.tokens.push({ type: 'tag-end', close, position: { end } })
   }
   return tagName
 }
@@ -153,7 +153,7 @@ export function isWhitespaceChar (char) {
 }
 
 export function lexTagName (state) {
-  const {str, position} = state
+  const { str, position } = state
   const len = str.length
   let start = position.index
   while (start < len) {
@@ -181,7 +181,7 @@ export function lexTagName (state) {
 }
 
 export function lexTagAttributes (state) {
-  const {str, position, tokens} = state
+  const { str, position, tokens } = state
   let cursor = position.index
   let quote = null // null, single-, or double-quote
   let wordBegin = cursor // index of word start
@@ -237,7 +237,7 @@ export function lexTagAttributes (state) {
       if (secondWord && startsWith(secondWord, '=')) {
         if (secondWord.length > 1) {
           const newWord = word + secondWord
-          tokens.push({type, content: newWord})
+          tokens.push({ type, content: newWord })
           i += 1
           continue
         }
@@ -245,7 +245,7 @@ export function lexTagAttributes (state) {
         i += 1
         if (thirdWord) {
           const newWord = word + '=' + thirdWord
-          tokens.push({type, content: newWord})
+          tokens.push({ type, content: newWord })
           i += 1
           continue
         }
@@ -255,24 +255,24 @@ export function lexTagAttributes (state) {
       const secondWord = words[i + 1]
       if (secondWord && !stringIncludes(secondWord, '=')) {
         const newWord = word + secondWord
-        tokens.push({type, content: newWord})
+        tokens.push({ type, content: newWord })
         i += 1
         continue
       }
 
       const newWord = word.slice(0, -1)
-      tokens.push({type, content: newWord})
+      tokens.push({ type, content: newWord })
       continue
     }
 
-    tokens.push({type, content: word})
+    tokens.push({ type, content: word })
   }
 }
 
 const push = [].push
 
 export function lexSkipTag (tagName, state) {
-  const {str, position, tokens} = state
+  const { str, position, tokens } = state
   const safeTagName = tagName.toLowerCase()
   const len = str.length
   let index = position.index
@@ -285,7 +285,7 @@ export function lexSkipTag (tagName, state) {
 
     const tagStartPosition = copyPosition(position)
     jumpPosition(tagStartPosition, str, nextTag)
-    const tagState = {str, position: tagStartPosition, tokens: []}
+    const tagState = { str, position: tagStartPosition, tokens: [] }
     const name = lexTag(tagState)
     if (safeTagName !== name.toLowerCase()) {
       index = tagState.position.index

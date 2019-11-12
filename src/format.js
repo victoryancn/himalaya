@@ -39,6 +39,6 @@ export function formatAttributes (attributes) {
     const value = typeof parts[1] === 'string'
       ? unquote(parts[1])
       : null
-    return {key, value}
+    return { key, value }
   })
 }
